@@ -4,10 +4,10 @@
 // Lecture Class: TC7L
 // Tutorial Class: T13L
 // Trimester: 2430
-// Member_1:
+// Member_1: 243UC247BR | LIM PEI SHAN | LIM.PEI.SHAN@student.mmu.edu.my | 012-9811692
 // Member_2: 243UC247D6 | CHAN KER JING | CHAN.KER.JING@student.mmu.edu.my | 011-59527593
-// Member_3:
-// Member_4:
+// Member_3: 243UC247CB | TEOW YAN PING | TEOW.YAN.PING@student.mmu.edu.my | 019-4422688
+// Member_4: 243UC247C1 | BERNICE GAN XINYI | BERNICE.GAN.XINYI@student.mmu.edu.my | 019-4100508
 // **************************************************************************
 #include <iostream>
 #include <string>
