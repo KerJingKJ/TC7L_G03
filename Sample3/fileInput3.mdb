@@ -11,7 +11,7 @@ book_status TEXT,
 book_quantity INT,
 book_pricing INT
 book_language TEXT, 
-book_library_or_store_location TEXT
+book_location TEXT
 );
 TABLES;
 
