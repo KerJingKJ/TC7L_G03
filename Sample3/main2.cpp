@@ -9,135 +9,96 @@
 // Member_3: 243UC247CB | TEOW YAN PING | TEOW.YAN.PING@student.mmu.edu.my | 019-4422688
 // Member_4: 243UC247C1 | BERNICE GAN XINYI | BERNICE.GAN.XINYI@student.mmu.edu.my | 019-4100508
 // **************************************************************************
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <regex> //to identify the keyword that is needed to store inside the output file,
-                //and then skip unnecessary symbol like comma semicolon
+#include <regex>
+#include <vector>
 using namespace std;
 
-// here are the prototype that needed to create, insert and select table
+struct Book {
+    int id;
+    string name;
+    string author;
+    int year;
+    string category;
+    string status;
+    int quantity;
+    int pricing;
+    string language;
+    string location;
+};
+
+// Prototype declarations
 void createTable(const string& line);
 void selectFromTable(const string& line);
-void insertIntoTable(const string& line, int book_id[], string book_name[], string book_author[], int book_year[], string book_category[], string book_status[], int book_quantity[], int book_pricing[], int& book_count);
+void insertIntoTable(const string& line, vector<Book>& books);
 
 int main() {
-    const int MAX_BOOKS = 10; //constant: max row is 10
-
-    // arrays that stores the datas like book id, book name and etc.
-    int book_id[MAX_BOOKS];
-    string book_name[MAX_BOOKS];
-    string book_author[MAX_BOOKS];
-    int book_year[MAX_BOOKS];
-    string book_category[MAX_BOOKS];
-    string book_status[MAX_BOOKS];
-    int book_quantity[MAX_BOOKS];
-    int book_pricing[MAX_BOOKS];
-    int book_count = 0;
-
-    //read input file and write output file
+    vector<Book> books; // Vector to store book details
 
     ifstream inputFile;
     ofstream outputFile;
     string filename;
     string line, fullCommand;
 
-    //prompt to ask user to enter which input file they want to open
-
     cout << "Enter the filename: ";
     cin >> filename;
 
     inputFile.open(filename);
 
-
-    if (inputFile)
-    {
-
-        if (inputFile.peek() == ifstream::traits_type::eof())
-        {
+    if (inputFile) {
+        if (inputFile.peek() == ifstream::traits_type::eof()) {
             cout << "The file is empty.\n";
-        }
-        else
-        {
-        //goes through each line to search for some keyword like CREATE, INSERT
-
+        } else {
             while (getline(inputFile, line)) {
-                // Accumulate lines into fullCommand until ';' is found
                 fullCommand += line;
-                if (line.find(';') != string::npos)
-                {
-                    if (fullCommand.find("CREATE TABLE") != string::npos)   // first one find the keyword 'create table' and call out function
-                    {
+                if (line.find(';') != string::npos) {
+                    if (fullCommand.find("CREATE TABLE") != string::npos) {
                         createTable(fullCommand);
                         outputFile.open("fileOutput3.csv");
-                    }
-                    else if (fullCommand.find("INSERT INTO") != string::npos)   // then find 'insert into' and then call another function
-                    {
-                        insertIntoTable(fullCommand, book_id, book_name, book_author, book_year, book_category, book_status, book_quantity, book_pricing, book_count);
-                    }
-                    else if (fullCommand.find("SELECT") != string::npos) //the others same also
-                    {
-                        selectFromTable(fullCommand);   // now this run three times before we add the update, delete and count function
+                    } else if (fullCommand.find("INSERT INTO") != string::npos) {
+                        insertIntoTable(fullCommand, books);
+                    } else if (fullCommand.find("SELECT") != string::npos) {
+                        selectFromTable(fullCommand);
                     }
 
-                    fullCommand.clear();  // Reset command buffer
+                    fullCommand.clear();
                 }
-
-
             }
             inputFile.close();
         }
-    }
-    else
+    } 
+    else 
     {
-        // Display an error message
         cout << "Error opening the file.\n";
     }
 
-
-    // after running all if and else if condition, output the table, and then also write it into output file
-    if (book_count == 0) {
+    if (books.empty()) {
         cout << "No books available in the 'books' table to view in CSV format.\n";
-    } else {
-        // here is for the cmd
-        cout << "ID, Name, Author, Year, Category, Status, Quantity, Pricing" << endl;
-        outputFile << "ID, Name, Author, Year, Category, Status, Quantity, Pricing" << endl;
-        for (int i = 0; i < book_count; i++) {
-            cout << book_id[i] << ","
-                 << book_name[i] << ","
-                 << book_author[i] << ","
-                 << book_year[i] << ","
-                 << book_category[i] << ","
-                 << book_status[i] << ","
-                 << book_quantity[i] << ","
-                 << book_pricing[i] << endl;
+    } 
+    else {
+        cout << "ID, Name, Author, Year, Category, Status, Quantity, Pricing, Language, Location" << endl;
+        outputFile << "ID, Name, Author, Year, Category, Status, Quantity, Pricing, Language, Location" << endl;
+        for (const auto& book : books) {
+            cout << book.id << "," << book.name << "," << book.author << "," << book.year << ","
+                 << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << "," << book.language << "," << book.location << endl;
 
-            // here is for the output file 'fileOutput1.txt'
-
-
-
-            outputFile << book_id[i] << ","
-                         << book_name[i] << ","
-                         << book_author[i] << ","
-                         << book_year[i] << ","
-                         << book_category[i] << ","
-                         << book_status[i] << ","
-                         << book_quantity[i] << ","
-                         << book_pricing[i] << endl;
+            outputFile << book.id << "," << book.name << "," << book.author << "," << book.year << ","
+                      << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << "," << book.language << "," << book.location << endl;
         }
-
         outputFile.close();
     }
 
     return 0;
 }
 
-void createTable(const string& line)
+void createTable(const string& line) 
 {
     cout << "Processing CREATE TABLE command...\n";
     cout << "Table structure initialized for storing book data.\n";
-
 }
 
 void selectFromTable(const string& line)
@@ -145,48 +106,32 @@ void selectFromTable(const string& line)
     cout << "Processing SELECT command...\n";
 }
 
-void insertIntoTable(const string& line, int book_id[], string book_name[], string book_author[],
-                     int book_year[], string book_category[], string book_status[],
-                     int book_quantity[], int book_pricing[], int& book_count)
+void insertIntoTable(const string& line, vector<Book>& books) 
 {
-    regex pattern(R"(\((\d+),'([^']+)','([^']+)',(\d+),'([^']+)','([^']+)',(\d+),(\d+)\))");
-  //  regex pattern(R"(\((\d+),'([^']+)','([^']+)',(\d+),'([^']+)','([^']+)',(\d+),(\d+),'([^']+)','([^']+)'\))");
-  // replace the regex to this after adding TEXT
+    regex pattern(R"(\((\d+),'([^']+)','([^']+)',(\d+),'([^']+)','([^']+)',(\d+),(\d+),'([^']+)','([^']+)'\))");
+    smatch match;
 
+    if (regex_search(line, match, pattern)) {
+        Book book;
+        book.id = stoi(match[1]);
+        book.name = match[2];
+        book.author = match[3];
+        book.year = stoi(match[4]);
+        book.category = match[5];
+        book.status = match[6];
+        book.quantity = stoi(match[7]);
+        book.pricing = stoi(match[8]);
+        book.language = match[9];
+        book.location = match[10];
 
-                        //here we use regex, to extract the datas from the VALUES, and then put it into output files
-                        // R(...) = raw string literals, means here it helps
-                        // to ignore all special characters like \n \t
-                        // Note:
-                        // the format is R( (), '()') = having brackets to store array ; if have ' ' means it is a string
-                        // we need to put () around the regex, to create a capturing group. Means grouped them together
-                        // \( for the open bracket '('
-                        // \d means digit number 0-9; now we have \d+ because we need to capture one or more digit
-                        // [^'] = here means it match any character except single quotation: ^' means except '; and then
-                        // we have a + here means one or more character(string)
-
-    smatch match;       // smatch=string match; create an object called match and then use store the result of the matched regex above.
-
-    // regex_search : Searches a string for a match to the regex.
-    //format (first, second, third)
-    // first = to go through the line in database
-    // second = hold the results of the matched value
-    // third = the pattern that you want to match with
-    if (regex_search(line, match, pattern))
+        books.push_back(book);
+    } 
+    else 
     {
-        book_id[book_count] = stoi(match[1]); // convert the string back to integer to store it in array
-        book_name[book_count] = match[2];
-        book_author[book_count] = match[3];
-        book_year[book_count] = stoi(match[4]);
-        book_category[book_count] = match[5];
-        book_status[book_count] = match[6];
-        book_quantity[book_count] = stoi(match[7]);
-        book_pricing[book_count] = stoi(match[8]);
-
-        book_count++;
+        cout << "Error: Invalid INSERT INTO format.\n";
     }
-    else
-    {
+}
+
         cout << "Error: Invalid INSERT INTO format.\n";
     }
 }
