@@ -131,7 +131,3 @@ void insertIntoTable(const string& line, vector<Book>& books)
         cout << "Error: Invalid INSERT INTO format.\n";
     }
 }
-
-        cout << "Error: Invalid INSERT INTO format.\n";
-    }
-}
