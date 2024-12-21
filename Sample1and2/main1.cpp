@@ -142,7 +142,7 @@ int main(){
             while (getline(inputFile, line))
             {
                 if (line.find("CREATE", 0) == 0 || line.find("DATABASES", 0) == 0 ||
-                line.find("TABLES", 0) == 0 || line.find("INSERT", 0) == 0 ||
+                line.find("TABLES", 0) == 0 || line.find("INSERT", 0) == 0 || line.find("UPDATE", 0) == 0 || line.find("DELETE", 0) == 0 ||
                 line.find("SELECT", 0) == 0) {
                 cout << "> " << line << endl;
                 outputTxtFile << ">" << line << endl;
