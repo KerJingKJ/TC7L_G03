@@ -24,10 +24,10 @@ VALUES (4,'name4','city4','state4','country4','phone4','email4');
  
 >TABLES;
  
-UPDATE customer SET customer_email='email333' WHERE customer_id=3;
+>UPDATE customer SET customer_email='email333' WHERE customer_id=3;
 >SELECT * FROM customer;
  
-DELETE FROM customer WHERE customer_id=4;
+>DELETE FROM customer WHERE customer_id=4;
 >SELECT * FROM customer;
  
 >SELECT COUNT(*) FROM customer;
