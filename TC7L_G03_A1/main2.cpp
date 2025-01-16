@@ -105,7 +105,7 @@ int main() {
         cout << "No books available in the 'books' table to view in CSV format.\n";
     }
     else {
-        cout << "Check the final version of your table in csv file" << endl;
+        cout << endl << "CSV file generated successfully." << endl;
         outputFile << "ID, Name, Author, Year, Category, Status, Quantity, Pricing, Language, Location" << endl;
         for (const auto& book : books) {
 
