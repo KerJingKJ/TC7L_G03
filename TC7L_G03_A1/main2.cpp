@@ -33,7 +33,7 @@ struct Book {
 
 // Prototype declarations
 void createTable(const string& line);
-void selectFromTable(const string& line);
+void selectFromTable(const string& line, vector<Book>& books);
 void insertIntoTable(const string& line, vector<Book>& books);
 
 int main() {
@@ -59,10 +59,35 @@ int main() {
                     if (fullCommand.find("CREATE TABLE") != string::npos) {
                         createTable(fullCommand);
                         outputFile.open("fileOutput3.csv");
-                    } else if (fullCommand.find("INSERT INTO") != string::npos) {
+                    }
+                    else if (fullCommand.find("INSERT INTO") != string::npos) {
                         insertIntoTable(fullCommand, books);
-                    } else if (fullCommand.find("SELECT") != string::npos) {
-                        selectFromTable(fullCommand);
+                    }
+                    else if (fullCommand.find("SELECT * FROM") != string::npos) {
+                        selectFromTable(fullCommand, books);
+
+                    }
+                    else if (fullCommand.find("TABLES") != string::npos) //the others same also
+                    {
+                        cout << line << endl;
+                        cout << "books" << endl;
+                    }
+                    else if (fullCommand.find("UPDATE") != string::npos) //the others same also
+                    {
+                        cout << endl;
+                        cout << "Here will call a update function to update something to the list" << endl;
+                        // replace this with actual function
+                    }
+                    else if (fullCommand.find("DELETE") != string::npos)
+                    {
+                        cout << endl;
+                        cout << "Here will call a delete function to update something to the list" << endl;
+                        // replace this with actual function
+                    }
+                    else if (fullCommand.find("SELECT COUNT") != string::npos)
+                    {
+                        cout << endl;
+                        cout << "here is the count function" << endl;
                     }
 
                     fullCommand.clear();
@@ -70,24 +95,23 @@ int main() {
             }
             inputFile.close();
         }
-    } 
-    else 
+    }
+    else
     {
         cout << "Error opening the file.\n";
     }
 
     if (books.empty()) {
         cout << "No books available in the 'books' table to view in CSV format.\n";
-    } 
+    }
     else {
-        cout << "ID, Name, Author, Year, Category, Status, Quantity, Pricing, Language, Location" << endl;
+        cout << "Check the final version of your table in csv file" << endl;
         outputFile << "ID, Name, Author, Year, Category, Status, Quantity, Pricing, Language, Location" << endl;
         for (const auto& book : books) {
-            cout << book.id << "," << book.name << "," << book.author << "," << book.year << ","
-                 << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << "," << book.language << "," << book.location << endl;
 
             outputFile << book.id << "," << book.name << "," << book.author << "," << book.year << ","
                       << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << "," << book.language << "," << book.location << endl;
+
         }
         outputFile.close();
     }
@@ -95,18 +119,22 @@ int main() {
     return 0;
 }
 
-void createTable(const string& line) 
+void createTable(const string& line)
 {
     cout << "Processing CREATE TABLE command...\n";
     cout << "Table structure initialized for storing book data.\n";
 }
 
-void selectFromTable(const string& line)
+void selectFromTable(const string& line, vector<Book>& books)
 {
-    cout << "Processing SELECT command...\n";
+   // cout << "Processing SELECT command...\n";
+   for (const auto& book : books) {
+    cout << book.id << "," << book.name << "," << book.author << "," << book.year << ","
+                 << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << "," << book.language << "," << book.location << endl;
+   }
 }
 
-void insertIntoTable(const string& line, vector<Book>& books) 
+void insertIntoTable(const string& line, vector<Book>& books)
 {
     regex pattern(R"(\((\d+),'([^']+)','([^']+)',(\d+),'([^']+)','([^']+)',(\d+),(\d+),'([^']+)','([^']+)'\))");
     smatch match;
@@ -125,8 +153,8 @@ void insertIntoTable(const string& line, vector<Book>& books)
         book.location = match[10];
 
         books.push_back(book);
-    } 
-    else 
+    }
+    else
     {
         cout << "Error: Invalid INSERT INTO format.\n";
     }
