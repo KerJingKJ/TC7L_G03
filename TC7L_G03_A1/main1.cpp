@@ -264,7 +264,8 @@ void deleteFromTable(const string& line, vector<int>& customer_id, vector<string
                      vector<string>& customer_email, int& customer_count, ofstream& outputfile) {
     cout << ">" << line;
     outputfile << ">" << line;
-
+    cout << endl;
+    outputfile << endl;
     regex pattern(R"(WHERE\s+customer_id\s*=\s*(\d+))");
     smatch match;
 
