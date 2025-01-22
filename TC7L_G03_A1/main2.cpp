@@ -35,6 +35,8 @@ struct Book {
 void createTable(const string& line);
 void selectFromTable(const string& line, vector<Book>& books);
 void insertIntoTable(const string& line, vector<Book>& books);
+void deleteFromTable(const string& line, vector<Book>& books);
+
 
 int main() {
     vector<Book> books; // Vector to store book details
@@ -78,11 +80,10 @@ int main() {
                         cout << "Here will call a update function to update something to the list" << endl;
                         // replace this with actual function
                     }
-                    else if (fullCommand.find("DELETE") != string::npos)
+                    else if (fullCommand.find("DELETE FROM") != string::npos)
                     {
                         cout << endl;
-                        cout << "Here will call a delete function to update something to the list" << endl;
-                        // replace this with actual function
+                        deleteFromTable(fullCommand, books);
                     }
                     else if (fullCommand.find("SELECT COUNT") != string::npos)
                     {
@@ -159,3 +160,25 @@ void insertIntoTable(const string& line, vector<Book>& books)
         cout << "Error: Invalid INSERT INTO format.\n";
     }
 }
+
+void deleteFromTable(const string& line, vector<Book>& books) {
+    regex pattern(R"(DELETE FROM books\s+WHERE\s+book_id=(\d+);?)");
+    smatch match;
+
+    if (regex_search(line, match, pattern)) {
+        int bookIdToDelete = stoi(match[1]);
+        auto it = remove_if(books.begin(), books.end(), [bookIdToDelete](const Book& book) {
+            return book.id == bookIdToDelete;
+        });
+
+        if (it != books.end()) {
+            books.erase(it, books.end());
+            cout << "Book with ID " << bookIdToDelete << " deleted successfully.\n";
+        } else {
+            cout << "No book found with ID " << bookIdToDelete << ".\n";
+        }
+    } else {
+        cout << "Error: Invalid DELETE FROM format.\n";
+    }
+}
+
