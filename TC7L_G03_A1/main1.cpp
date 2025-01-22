@@ -26,6 +26,10 @@ void selectFromTable(const string& line, vector<int>& customer_id, vector<string
 void insertIntoTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
                      vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
                      vector<string>& customer_email, int& customer_count, ofstream&);
+void deleteFromTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
+                     vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
+                     vector<string>& customer_email, int& customer_count, ofstream&);
+
 int main(){
     // vactors that stores the datas like book id, book name and etc.
     vector <int> customer_id;
@@ -112,11 +116,11 @@ int main(){
                         cout << "Here will call a update function to update something to the list" << endl;
                         // replace this with actual function
                     }
-                    else if (fullCommand.find("DELETE") != string::npos)
-                    {
-                        cout << "Here will call a delete function to update something to the list" << endl;
-                        // replace this with actual function
+                    else if (fullCommand.find("DELETE FROM") != string::npos) {
+                        deleteFromTable(fullCommand, customer_id, customer_name, customer_city, customer_state, customer_country,
+                                        customer_phone, customer_email, customer_count, outputTxtFile);
                     }
+
                     else if (fullCommand.find("SELECT COUNT") != string::npos)
                     {
                         cout << "here is the count function" << endl;
@@ -251,5 +255,39 @@ void insertIntoTable(const string& line, vector<int>& customer_id, vector<string
     else
     {
         cout << "Error: Invalid INSERT INTO format.\n" << line << endl;
+    }
+}
+
+void deleteFromTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
+                     vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
+                     vector<string>& customer_email, int& customer_count, ofstream& outputfile) {
+    cout << ">" << line;
+    outputfile << ">" << line;
+
+    regex pattern(R"(WHERE\s+customer_id\s*=\s*(\d+))");
+    smatch match;
+
+    if (regex_search(line, match, pattern)) {
+        int idToDelete = stoi(match[1]);
+        bool found = false;
+        for (size_t i = 0; i < customer_id.size(); ++i) {
+            if (customer_id[i] == idToDelete) {
+                customer_id.erase(customer_id.begin() + i);
+                customer_name.erase(customer_name.begin() + i);
+                customer_city.erase(customer_city.begin() + i);
+                customer_state.erase(customer_state.begin() + i);
+                customer_country.erase(customer_country.begin() + i);
+                customer_phone.erase(customer_phone.begin() + i);
+                customer_email.erase(customer_email.begin() + i);
+                customer_count--;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            cout << "Error: Customer ID not found.\n";
+        }
+    } else {
+        cout << "Error: Invalid DELETE FROM format.\n";
     }
 }
