@@ -81,7 +81,7 @@ int main(){
 
             while (getline(inputFile, line)) {
                 // Accumulate lines into fullCommand until ';' is found
-                fullCommand += line+"\n";
+                fullCommand += line;
                 if (fullCommand.find(';') != string::npos)
                 {
 
@@ -91,6 +91,7 @@ int main(){
                         createTable(fullCommand, outputTxtFile);
 
                     }
+
                     else if (fullCommand.find ("DATABASES") != string::npos)
                     {
                         cout << "Here use the file system library to output the path" << endl; //Yan Ping's Part
@@ -169,8 +170,8 @@ int main(){
 
 void createTable(const string& line, ofstream& outputfile)
 {
-    cout << ">" << line;
-    outputfile << ">" << line;
+    cout << ">" << line << endl;
+    outputfile << ">" << line << endl;
 }
 
 void selectFromTable(const string& line,  vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
@@ -215,8 +216,8 @@ void insertIntoTable(const string& line, vector<int>& customer_id, vector<string
                      vector<string>& customer_email, int& customer_count, ofstream& outputfile)
 {
 
-    cout << ">" << line;
-    outputfile << ">" << line;
+    cout << ">" << line << endl;
+    outputfile << ">" << line << endl;
     regex pattern(R"(\(\s*(\d+)\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*\))");
 
 
