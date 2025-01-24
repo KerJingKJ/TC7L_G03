@@ -35,6 +35,7 @@ struct Book {
 void createTable(const string& line);
 void selectFromTable(const string& line, vector<Book>& books);
 void insertIntoTable(const string& line, vector<Book>& books);
+void updateFromTable(const string& line, vector<Book>& books);
 void deleteFromTable(const string& line, vector<Book>& books);
 
 
@@ -78,7 +79,7 @@ int main() {
                     {
                         cout << endl;
                         cout << "Here will call a update function to update something to the list" << endl;
-                        // replace this with actual function
+                        updateFromTable(fullCommand, books);
                     }
                     else if (fullCommand.find("DELETE FROM") != string::npos)
                     {
@@ -159,6 +160,34 @@ void insertIntoTable(const string& line, vector<Book>& books)
     else
     {
         cout << "Error: Invalid INSERT INTO format.\n";
+    }
+}
+
+void updateFromTable(const string& line, vector<Book>& books) {
+    regex pattern(R"(UPDATE\s+books\s+SET\s+book_status\s*=\s*'([^']+)'\s+WHERE\s+book_id\s*=\s*(\d+);?)");
+    smatch match;
+
+    if (regex_search(line, match, pattern)) {
+        string bookStatusToUpdate = match[1];
+        int bookIdToUpdate = stoi(match[2]);
+        bool found = false;
+        for (auto& book : books){
+            if (book.id == bookIdToUpdate) {
+                book.status = bookStatusToUpdate;
+                found = true;
+                break;
+            }
+        }
+        if (found)
+        {
+             cout << "Book with ID " << bookIdToUpdate << " updated successfully to '" << bookStatusToUpdate << "'.\n";
+        }
+        else{
+            cout << "No book found with ID " << bookIdToUpdate << ".\n";
+        }
+    }
+    else {
+        cout << "Error: Invalid UPDATE format.\n";
     }
 }
 

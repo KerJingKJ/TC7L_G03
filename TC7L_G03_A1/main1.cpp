@@ -26,6 +26,11 @@ void selectFromTable(const string& line, vector<int>& customer_id, vector<string
 void insertIntoTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
                      vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
                      vector<string>& customer_email, int& customer_count, ofstream&);
+
+void updateFromTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
+                     vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
+                     vector<string>& customer_email, int& customer_count, ofstream&);
+
 void deleteFromTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
                      vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
                      vector<string>& customer_email, int& customer_count, ofstream&);
@@ -116,7 +121,8 @@ int main(){
                     else if (fullCommand.find("UPDATE") != string::npos) //the others same also
                     {
                         cout << "Here will call a update function to update something to the list" << endl;
-                        // replace this with actual function
+                        updateFromTable(fullCommand, customer_id, customer_name, customer_city, customer_state, customer_country,
+                                        customer_phone, customer_email, customer_count, outputTxtFile);
                     }
                     else if (fullCommand.find("DELETE FROM") != string::npos) {
                         deleteFromTable(fullCommand, customer_id, customer_name, customer_city, customer_state, customer_country,
@@ -261,6 +267,37 @@ void insertIntoTable(const string& line, vector<int>& customer_id, vector<string
         cout << "Error: Invalid INSERT INTO format.\n" << line << endl;
     }
 }
+
+void updateFromTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
+                     vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
+                     vector<string>& customer_email, int& customer_count, ofstream& outputfile)
+{
+    cout << ">" << line;
+    outputfile << ">" << line;
+
+    regex pattern(R"(UPDATE\s+customer\s+SET\s+customer_email\s*=\s*'([^']+)'\s+WHERE\s+customer_id\s*=\s*(\d+))");
+    smatch match;
+
+    if (regex_search(line, match, pattern)) {
+        string emailToUpdate = match[1];
+        int idToUpdate = stoi(match[2]);
+        bool found = false;
+        
+        for (size_t i = 0; i < customer_id.size(); ++i) {
+            if (customer_id[i] == idToUpdate) {
+                customer_email[i] = emailToUpdate;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            cout << "Error: Customer ID not found.\n";
+        }
+    } else {
+        cout << "Error: Invalid UPDATE FROM format.\n";
+    }
+}
+
 
 void deleteFromTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
                      vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,

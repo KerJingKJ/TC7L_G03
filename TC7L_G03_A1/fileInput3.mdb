@@ -57,7 +57,7 @@ SELECT * FROM books;
 TABLES;
 
 UPDATE books 
-SET book_status='Not Available' 
+SET book_status='Available' 
 WHERE book_id=5;
 SELECT * FROM books;
 
