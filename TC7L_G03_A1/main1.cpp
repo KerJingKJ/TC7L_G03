@@ -120,7 +120,6 @@ int main(){
                     }
                     else if (fullCommand.find("UPDATE") != string::npos) //the others same also
                     {
-                        cout << "Here will call a update function to update something to the list" << endl;
                         updateFromTable(fullCommand, customer_id, customer_name, customer_city, customer_state, customer_country,
                                         customer_phone, customer_email, customer_count, outputTxtFile);
                     }
