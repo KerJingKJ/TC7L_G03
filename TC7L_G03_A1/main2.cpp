@@ -78,7 +78,6 @@ int main() {
                     else if (fullCommand.find("UPDATE") != string::npos) //the others same also
                     {
                         cout << endl;
-                        cout << "Here will call a update function to update something to the list" << endl;
                         updateFromTable(fullCommand, books);
                     }
                     else if (fullCommand.find("DELETE FROM") != string::npos)
