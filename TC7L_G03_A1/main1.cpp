@@ -81,7 +81,8 @@ int main(){
 
             while (getline(inputFile, line)) {
                 // Accumulate lines into fullCommand until ';' is found
-                fullCommand += line;
+
+                fullCommand += line+"\n";
                 if (fullCommand.find(';') != string::npos)
                 {
 
@@ -89,7 +90,6 @@ int main(){
                                                                       // and call out function
                     {
                         createTable(fullCommand, outputTxtFile);
-
                     }
 
                     else if (fullCommand.find ("DATABASES") != string::npos)
@@ -111,6 +111,7 @@ int main(){
                     {
                         cout << ">" << line << endl;
                         cout << "customer" << endl;
+
                     }
                     else if (fullCommand.find("UPDATE") != string::npos) //the others same also
                     {
@@ -125,6 +126,7 @@ int main(){
                     else if (fullCommand.find("SELECT COUNT") != string::npos)
                     {
                         cout << "here is the count function" << endl;
+
                     }
 
                     fullCommand.clear();  // Reset command buffer
@@ -170,8 +172,9 @@ int main(){
 
 void createTable(const string& line, ofstream& outputfile)
 {
-    cout << ">" << line << endl;
-    outputfile << ">" << line << endl;
+
+    cout << ">" << line;
+    outputfile << ">" << line;
 }
 
 void selectFromTable(const string& line,  vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
@@ -216,8 +219,8 @@ void insertIntoTable(const string& line, vector<int>& customer_id, vector<string
                      vector<string>& customer_email, int& customer_count, ofstream& outputfile)
 {
 
-    cout << ">" << line << endl;
-    outputfile << ">" << line << endl;
+    cout << ">" << line;
+    outputfile << ">" << line;
     regex pattern(R"(\(\s*(\d+)\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*\))");
 
 
@@ -264,8 +267,7 @@ void deleteFromTable(const string& line, vector<int>& customer_id, vector<string
                      vector<string>& customer_email, int& customer_count, ofstream& outputfile) {
     cout << ">" << line;
     outputfile << ">" << line;
-    cout << endl;
-    outputfile << endl;
+
     regex pattern(R"(WHERE\s+customer_id\s*=\s*(\d+))");
     smatch match;
 

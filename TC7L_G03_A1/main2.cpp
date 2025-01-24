@@ -89,6 +89,7 @@ int main() {
                     {
                         cout << endl;
                         cout << "here is the count function" << endl;
+
                     }
 
                     fullCommand.clear();
