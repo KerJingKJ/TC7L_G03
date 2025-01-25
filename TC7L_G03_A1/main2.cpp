@@ -37,7 +37,7 @@ void selectFromTable(const string& line, vector<Book>& books);
 void insertIntoTable(const string& line, vector<Book>& books);
 void updateFromTable(const string& line, vector<Book>& books);
 void deleteFromTable(const string& line, vector<Book>& books);
-
+int countBooks(const vector<Book>& books);
 
 int main() {
     vector<Book> books; // Vector to store book details
@@ -68,28 +68,23 @@ int main() {
                     }
                     else if (fullCommand.find("SELECT * FROM") != string::npos) {
                         selectFromTable(fullCommand, books);
-
                     }
-                    else if (fullCommand.find("TABLES") != string::npos) //the others same also
-                    {
+                    else if (fullCommand.find("TABLES") != string::npos) {
                         cout << line << endl;
                         cout << "books" << endl;
                     }
-                    else if (fullCommand.find("UPDATE") != string::npos) //the others same also
-                    {
+                    else if (fullCommand.find("UPDATE") != string::npos) {
                         cout << endl;
                         updateFromTable(fullCommand, books);
                     }
-                    else if (fullCommand.find("DELETE FROM") != string::npos)
-                    {
+                    else if (fullCommand.find("DELETE FROM") != string::npos) {
                         cout << endl;
                         deleteFromTable(fullCommand, books);
+                        cout << "Number of books after deletion: " << countBooks(books) << endl;  // Count books after delete
                     }
-                    else if (fullCommand.find("SELECT COUNT") != string::npos)
-                    {
+                    else if (fullCommand.find("SELECT COUNT") != string::npos) {
                         cout << endl;
-                        cout << "here is the count function" << endl;
-
+                        cout << "Number of books: " << countBooks(books) << endl;  // Show count
                     }
 
                     fullCommand.clear();
@@ -98,8 +93,7 @@ int main() {
             inputFile.close();
         }
     }
-    else
-    {
+    else {
         cout << "Error opening the file.\n";
     }
 
@@ -110,10 +104,9 @@ int main() {
         cout << endl << "CSV file generated successfully." << endl;
         outputFile << "ID, Name, Author, Year, Category, Status, Quantity, Pricing, Language, Location" << endl;
         for (const auto& book : books) {
-
             outputFile << book.id << "," << book.name << "," << book.author << "," << book.year << ","
-                      << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << "," << book.language << "," << book.location << endl;
-
+                       << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << ","
+                       << book.language << "," << book.location << endl;
         }
         outputFile.close();
     }
@@ -129,10 +122,10 @@ void createTable(const string& line)
 
 void selectFromTable(const string& line, vector<Book>& books)
 {
-   // cout << "Processing SELECT command...\n";
    for (const auto& book : books) {
-    cout << book.id << "," << book.name << "," << book.author << "," << book.year << ","
-                 << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << "," << book.language << "," << book.location << endl;
+       cout << book.id << "," << book.name << "," << book.author << "," << book.year << ","
+            << book.category << "," << book.status << "," << book.quantity << "," << book.pricing << ","
+            << book.language << "," << book.location << endl;
    }
 }
 
@@ -156,8 +149,7 @@ void insertIntoTable(const string& line, vector<Book>& books)
 
         books.push_back(book);
     }
-    else
-    {
+    else {
         cout << "Error: Invalid INSERT INTO format.\n";
     }
 }
@@ -211,3 +203,6 @@ void deleteFromTable(const string& line, vector<Book>& books) {
     }
 }
 
+int countBooks(const vector<Book>& books) {
+    return books.size();
+}
