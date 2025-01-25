@@ -14,6 +14,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <filesystem>
 #include <regex> //to identify the keyword that is needed to store inside the output file,
                 //and then skip unnecessary symbol like comma semicolon
 using namespace std;
@@ -98,9 +99,12 @@ int main(){
                         createTable(fullCommand, outputTxtFile);
                     }
 
-                    else if (fullCommand.find ("DATABASES") != string::npos)
-                    {
-                        cout << "Here use the file system library to output the path" << endl; //Yan Ping's Part
+                    else if (fullCommand.find("DATABASES") != string::npos) {
+                        string fullPath = std::filesystem::absolute(filename).string();
+                        cout << ">" << fullCommand;
+                        cout << fullPath << endl;
+                        outputTxtFile << ">" << fullCommand;
+                        outputTxtFile << "Full file path: " << fullPath << endl;
                     }
                     else if (fullCommand.find("INSERT INTO") != string::npos)   // then find 'insert into'
                                                                                 // and then call another function
@@ -343,9 +347,8 @@ void countFromTable(const string& line, int customer_count, ofstream& outputfile
         cout << customer_count << endl;
         outputfile << ">" << line;
         outputfile << customer_count << endl;
-    } 
+    }
     else {
         cout << "Error: Invalid SELECT COUNT syntax.\n";
     }
 }
-
