@@ -334,13 +334,11 @@ void deleteFromTable(const string& line, vector<int>& customer_id, vector<string
 }
 
 void countFromTable(const string& line, int customer_count, ofstream& outputfile) {
-    // Extract table name (e.g., customer) using regex
     regex pattern(R"(SELECT COUNT\(\*\) FROM\s+(\w+))");
     smatch match;
 
     if (regex_search(line, match, pattern)) {
         string tableName = match[1];
-        // Display and write the count to the output file
         cout << ">" << line;
         cout << customer_count << endl;
         outputfile << ">" << line;
