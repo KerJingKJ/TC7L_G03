@@ -34,6 +34,7 @@ void updateFromTable(const string& line, vector<int>& customer_id, vector<string
 void deleteFromTable(const string& line, vector<int>& customer_id, vector<string>& customer_name, vector<string>& customer_city,
                      vector<string>& customer_state, vector<string>& customer_country, vector<string>& customer_phone,
                      vector<string>& customer_email, int& customer_count, ofstream&);
+void countFromTable(const string& line, int customer_count, ofstream& outputfile);
 
 int main(){
     // vactors that stores the datas like book id, book name and etc.
@@ -130,7 +131,7 @@ int main(){
 
                     else if (fullCommand.find("SELECT COUNT") != string::npos)
                     {
-                        cout << "here is the count function" << endl;
+                        countFromTable(fullCommand, customer_count, outputTxtFile);
 
                     }
 
@@ -281,7 +282,7 @@ void updateFromTable(const string& line, vector<int>& customer_id, vector<string
         string emailToUpdate = match[1];
         int idToUpdate = stoi(match[2]);
         bool found = false;
-        
+
         for (size_t i = 0; i < customer_id.size(); ++i) {
             if (customer_id[i] == idToUpdate) {
                 customer_email[i] = emailToUpdate;
@@ -331,3 +332,21 @@ void deleteFromTable(const string& line, vector<int>& customer_id, vector<string
         cout << "Error: Invalid DELETE FROM format.\n";
     }
 }
+
+void countFromTable(const string& line, int customer_count, ofstream& outputfile) {
+    // Extract table name (e.g., customer) using regex
+    regex pattern(R"(SELECT COUNT\(\*\) FROM\s+(\w+))");
+    smatch match;
+
+    if (regex_search(line, match, pattern)) {
+        string tableName = match[1];
+        // Display and write the count to the output file
+        cout << ">" << line;
+        cout << customer_count << endl;
+        outputfile << ">" << line;
+        outputfile << customer_count << endl;
+    } else {
+        cout << "Error: Invalid SELECT COUNT syntax.\n";
+    }
+}
+
