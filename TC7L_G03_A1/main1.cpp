@@ -343,7 +343,8 @@ void countFromTable(const string& line, int customer_count, ofstream& outputfile
         cout << customer_count << endl;
         outputfile << ">" << line;
         outputfile << customer_count << endl;
-    } else {
+    } 
+    else {
         cout << "Error: Invalid SELECT COUNT syntax.\n";
     }
 }
