@@ -1,0 +1,12 @@
+ID, Name, Author, Year, Category, Status, Quantity, Pricing, Language, Location
+1,Inbound Selling,Brian Signorelli,2018,Business and Money,Available,30,71,English,Store
+2,A Tale of Two Cities,Charles Dickens,1859,Historical fiction,Available,10,62,English,Both
+3,And Then There Were None,Agatha Christie,1939,Mystery,Not Available,0,45,English,Library
+4,Dream of the Red Chamber,Cao Xueqin,1791,Family Saga,Available,5,64,Chinese,Library
+5,The Hobbit,J. R. R. Tolkien,1937,Fantasy,Available,0,48,English,Both
+7,The Bridges of Madison County,Robert James Waller,1992,Romance,Available,26,39,English,Store
+8,The Exorcist,William Peter Blatty,1971,Horror,Not Available,0,64,English,Library
+9,Love Story,Erich Segal,1970,Romance,Available,13,56,English,Store
+10,The Girl on the Train,Paula Hawkins,2015,Thriller,Available,33,44,English,Store
+11,Accordion Eulogies,Noe Alvarez,2024,Memoir,Available,26,63,English,Both
+12,The Book Thief,Markus Zusak,2005,Historical fiction,Available,18,50,German and English,Both
